@@ -1,146 +1,133 @@
 # CineExplorer
 
-> Borrador del proyecto de aplicación Android  
-> **Autor:** [Cristian Javier Jamaica]  
-> **Curso:** [Desarrollo de Aps Móviles (COM-437ES-AVO1)]  
-> **Institución:** [Saint Leo University]  
-> **Fecha:** 26 de agosto de 2026
+> Aplicación Android para explorar películas por género y consultar su información principal.  
+> **Autor:** [Nombre del estudiante]  
+> **Curso:** COM-437 Desarrollo de Aps Móviles  
+> **Institución:** [Nombre de la institución]  
+> **Versión actual:** 0.2.1  
+> **Última actualización:** 22 de septiembre de 2026
 
 ## Tabla de contenido
 
 1. [Descripción del proyecto](#descripción-del-proyecto)
 2. [Exposición del problema](#exposición-del-problema)
 3. [Objetivos](#objetivos)
-4. [Plataforma](#plataforma)
-5. [Interfaz de usuario](#interfaz-de-usuario)
-6. [Interfaz de administrador](#interfaz-de-administrador)
-7. [Funcionalidad](#funcionalidad)
-8. [Integración con la API](#integración-con-la-api)
+4. [Fundamento técnico](#fundamento-técnico)
+5. [Plataforma y tecnologías](#plataforma-y-tecnologías)
+6. [Interfaz de usuario y administración](#interfaz-de-usuario-y-administración)
+7. [Funcionalidad implementada](#funcionalidad-implementada)
+8. [Integración con TMDB](#integración-con-tmdb)
 9. [Diseño y wireframes](#diseño-y-wireframes)
-10. [Alcance del prototipo](#alcance-del-prototipo)
-11. [Referencias](#referencias)
+10. [Arquitectura y estructura](#arquitectura-y-estructura)
+11. [Instalación y ejecución](#instalación-y-ejecución)
+12. [Pruebas](#pruebas)
+13. [Registro de cambios](#registro-de-cambios)
+14. [Alcance y trabajo pendiente](#alcance-y-trabajo-pendiente)
+15. [Referencias](#referencias)
 
 ## Descripción del proyecto
 
-**CineExplorer** será una aplicación Android para explorar películas a partir de sus géneros. La pantalla inicial mostrará categorías como acción, aventura, animación, comedia, drama, terror y ciencia ficción. Cuando el usuario seleccione un género, la aplicación presentará las películas correspondientes en una cuadrícula. Al tocar una película, se abrirá una ficha con el título, año de estreno, géneros, director, sinopsis, reparto principal, duración, calificación y póster.
+**CineExplorer** es una aplicación Android que permite explorar películas a partir de sus géneros. La pantalla inicial presenta categorías cinematográficas como acción, aventura, animación, comedia, drama, terror y ciencia ficción. Cuando el usuario selecciona un género, la aplicación consulta y presenta las películas correspondientes en una cuadrícula. Al tocar una película, se abre una ficha con el título, año de estreno, géneros, director, sinopsis, reparto principal, duración, calificación y póster.
 
-La información se obtendrá de **The Movie Database (TMDB)** mediante su API. El proyecto tendrá un alcance concreto: navegación por géneros, listado de películas, consulta de detalles y una administración básica de los géneros visibles. La aplicación será informativa y no reproducirá ni descargará películas.
+La información se obtiene de **The Movie Database (TMDB)** mediante su API. La aplicación es informativa: no reproduce, descarga ni distribuye películas. La versión actual implementa el recorrido completo entre géneros, listado y detalle, además de una configuración local para controlar los géneros visibles.
 
 ## Exposición del problema
 
-Las personas interesadas en el cine pueden tener dificultades para encontrar películas de un género específico y consultar rápidamente su información principal. Los resultados generales de un buscador suelen mezclar noticias, videos, plataformas de transmisión y otros contenidos. Esto obliga al usuario a realizar varias búsquedas para conocer el año, el género, la sinopsis o el director de una película.
+Las personas interesadas en el cine pueden tener dificultades para descubrir películas de un género específico y consultar rápidamente sus datos principales. Los buscadores generales suelen mezclar noticias, videos, publicidad, servicios de transmisión y otros contenidos. Como consecuencia, el usuario debe abrir varias páginas para conocer datos básicos como el año, el director o la sinopsis de una película.
 
-CineExplorer reunirá esa información en un recorrido sencillo: **seleccionar un género, consultar sus películas y abrir la ficha de la película elegida**. De esta manera, el usuario podrá descubrir títulos relacionados con sus intereses sin recorrer diferentes sitios. El uso de una API mantendrá el catálogo separado del código de la aplicación y permitirá trabajar con datos cinematográficos reales.
+CineExplorer atiende este problema mediante un recorrido directo: **seleccionar un género, consultar sus películas y abrir la ficha del título elegido**. Este enfoque reduce pasos innecesarios y organiza la información según una categoría que el usuario reconoce. El uso de una API separa el catálogo del código y permite trabajar con información cinematográfica real y actualizable.
+
+La tesis que orienta el proyecto es que una navegación jerárquica y una presentación consistente de los datos reducen el esfuerzo requerido para explorar un catálogo cinematográfico. La interfaz aplica jerarquía visual, retroalimentación durante las consultas y mensajes recuperables ante los errores. Estas decisiones coinciden con los principios de visibilidad del estado del sistema, consistencia y prevención de errores propuestos por Nielsen (2024).
 
 ## Objetivos
 
 ### Objetivo general
 
-Desarrollar en Android Studio una aplicación móvil que permita explorar películas por género y consultar la información detallada de cada título mediante la API de TMDB.
+Desarrollar en Android Studio una aplicación móvil que permita explorar películas por género y consultar información detallada de cada título mediante la API de TMDB.
 
 ### Objetivos específicos
 
-- Obtener y mostrar la lista oficial de géneros cinematográficos de TMDB.
+- Obtener y mostrar la lista de géneros cinematográficos de TMDB.
 - Consultar las películas asociadas con el género seleccionado.
-- Mostrar título, póster y año en cada tarjeta de película.
+- Mostrar título, póster, año y calificación en cada tarjeta de película.
 - Presentar una ficha con géneros, director, sinopsis, reparto, duración y calificación.
 - Implementar navegación entre géneros, listado y detalle.
 - Incluir estados de carga, error y ausencia de resultados.
-- Permitir que un administrador seleccione qué géneros se muestran en la pantalla inicial.
+- Permitir que una configuración administrativa local determine los géneros visibles.
+- Mantener el token de TMDB fuera del repositorio público.
+- Documentar el avance mediante un registro de cambios verificable.
 
-## Plataforma
+## Fundamento técnico
 
-La aplicación se desarrollará para **Android** mediante **Android Studio**. Se utilizará **Kotlin** como lenguaje principal y **Jetpack Compose** para construir la interfaz con componentes de Material Design 3.
+La solución adopta una separación entre interfaz, estado y acceso a datos. Android Developers (2026a) recomienda una arquitectura organizada por capas y un flujo de datos predecible para mejorar la capacidad de prueba y mantenimiento. Por esta razón, las pantallas de CineExplorer observan estados administrados por `ViewModel`, mientras que `MovieRepository` concentra el acceso a la API.
 
-Tecnologías previstas:
+Jetpack Compose se utiliza para construir una interfaz declarativa. En este modelo, la pantalla representa el estado actual y vuelve a componerse cuando cambia la información (Android Developers, 2026b). Este principio facilita la representación explícita de cuatro condiciones importantes: carga, contenido disponible, ausencia de resultados y error recuperable.
 
-- **Entorno:** Android Studio.
-- **Lenguaje:** Kotlin.
-- **Interfaz:** Jetpack Compose y Material Design 3.
-- **Arquitectura:** MVVM, para separar pantallas, lógica y acceso a datos.
-- **Consumo de API:** Retrofit y Kotlin Coroutines.
-- **Imágenes:** Coil, para cargar los pósteres proporcionados por TMDB.
-- **Preferencias locales:** DataStore, para guardar los géneros visibles elegidos desde la administración.
-- **Control de versiones:** Git y GitHub Classroom.
+Las preferencias de géneros se almacenan con DataStore. Esta biblioteca ofrece una API basada en corrutinas y flujos para persistir conjuntos pequeños de configuración (Android Developers, 2026c). La información cinematográfica no se guarda ni se modifica localmente porque TMDB continúa siendo la fuente externa de los datos.
 
-No se incorporarán autenticación, Firebase, chat, reproducción de películas, pagos ni sincronización entre dispositivos. Estas funciones no son necesarias para demostrar el concepto principal. La clave o token de TMDB se mantendrá fuera del repositorio público mediante una configuración local.
+## Plataforma y tecnologías
 
-## Interfaz de usuario
+| Elemento | Selección | Uso en el proyecto |
+|---|---|---|
+| Plataforma | Android, API mínima 24 | Ejecución en teléfonos y emuladores Android |
+| Entorno | Android Studio | Edición, compilación, emulación y depuración |
+| Lenguaje | Kotlin | Lógica de la aplicación y modelos de datos |
+| Interfaz | Jetpack Compose y Material 3 | Pantallas, tarjetas, cuadrículas y estados |
+| Arquitectura | MVVM | Separación entre UI, estado y repositorio |
+| Navegación | Navigation Compose | Flujo entre géneros, listado, detalle y administración |
+| Red | Retrofit, OkHttp y corrutinas | Solicitudes HTTP y conversión de JSON |
+| Imágenes | Coil | Carga de pósteres remotos |
+| Preferencias | DataStore | Persistencia de géneros visibles y destacado |
+| Control de versiones | Git y GitHub Classroom | Historial, publicación y entrega |
 
-La interfaz seguirá un flujo de tres niveles:
+No se incorporan autenticación, Firebase, chat, pagos, reproducción de películas ni sincronización entre dispositivos. Estas funciones no son necesarias para demostrar el concepto central.
 
-1. **Géneros:** pantalla inicial con categorías cinematográficas representadas mediante tarjetas o botones.
-2. **Películas del género:** cuadrícula con póster, título y año de las películas correspondientes.
-3. **Detalle:** ficha con la información completa de la película seleccionada.
+## Interfaz de usuario y administración
 
-Pantallas principales:
+La interfaz sigue un flujo de tres niveles:
 
-- Pantalla de géneros.
-- Lista de películas filtradas por el género seleccionado.
-- Pantalla de detalle de una película.
-- Pantalla administrativa básica.
+1. **Géneros:** categorías cinematográficas disponibles.
+2. **Películas del género:** cuadrícula con póster, título, año y calificación.
+3. **Detalle:** información ampliada de la película seleccionada.
 
-La pantalla de listado permitirá regresar a los géneros y cargar más resultados mediante paginación sencilla. Durante una consulta aparecerá un indicador de carga. Si no hay conexión, la API falla o el género no contiene resultados, se mostrará un mensaje claro y un botón para volver a intentar.
+La pantalla de administración es una configuración local, no un sistema de usuarios. Permite activar o desactivar géneros, marcar uno como destacado, guardar la selección y restaurar los valores predeterminados. Siempre se conserva al menos un género visible. La selección permanece en el dispositivo mediante DataStore.
 
-## Interfaz de administrador
+Las consultas presentan un indicador de carga. Cuando la red no está disponible, el token es rechazado o la API no devuelve resultados, la aplicación muestra un mensaje comprensible y una acción de reintento. De esta manera, un error no provoca el cierre de la aplicación.
 
-Para cumplir el requisito de una interfaz administrativa sin aumentar demasiado la complejidad, CineExplorer incluirá una pantalla local de configuración. Desde ella se podrán activar o desactivar los géneros que aparecerán en la pantalla inicial y elegir uno como destacado. La selección se guardará mediante DataStore en el dispositivo.
-
-El administrador no editará las películas, los directores ni los demás datos de TMDB. Tampoco se implementará un sistema completo de usuarios o permisos en este prototipo. La entrada al modo administrativo podrá realizarse desde una opción identificada en el menú de configuración; su finalidad académica será demostrar la separación entre la experiencia de consulta y la configuración del catálogo visible.
-
-Funciones administrativas:
-
-- Consultar la lista de géneros disponibles.
-- Activar o desactivar géneros en la pantalla principal.
-- Elegir un género destacado.
-- Restaurar la selección predeterminada.
-- Guardar la configuración local.
-
-## Funcionalidad
+## Funcionalidad implementada
 
 ### Funciones del usuario
 
-1. Abrir la aplicación y consultar los géneros disponibles.
-2. Seleccionar un género.
-3. Ver las películas relacionadas con el género elegido.
-4. Cargar una página adicional de resultados.
-5. Seleccionar una película.
-6. Consultar su título, año, géneros, director, sinopsis, reparto, duración, calificación y póster.
-7. Regresar al listado o cambiar de género.
-8. Reintentar una consulta cuando ocurra un error de conexión.
+- Consultar los géneros obtenidos de TMDB.
+- Abrir un género y ver las películas asociadas.
+- Cargar otra página de resultados sin duplicar las películas ya visibles.
+- Consultar título, año, géneros, director, sinopsis, reparto, duración, calificación y póster.
+- Regresar al listado o cambiar de género.
+- Reintentar una consulta cuando ocurre un error.
 
-### Funciones del administrador
+### Funciones administrativas
 
-1. Abrir la configuración administrativa.
-2. Activar o desactivar géneros visibles.
-3. Seleccionar un género destacado.
-4. Guardar o restaurar la configuración.
+- Consultar todos los géneros disponibles.
+- Activar o desactivar géneros en la pantalla principal.
+- Elegir un género destacado, que aparecerá primero.
+- Guardar la configuración local.
+- Restaurar todos los géneros.
 
 ### Reglas principales
 
-- La pantalla inicial mostrará únicamente los géneros activados.
-- La selección de un género determinará la consulta enviada a TMDB.
-- Cada película se identificará mediante el identificador asignado por TMDB.
-- La ficha será informativa y no permitirá modificar los datos externos.
-- El director se obtendrá de los créditos buscando el trabajo identificado como *Director*.
-- La aplicación no reproducirá, descargará ni distribuirá contenido audiovisual.
-- Los errores no cerrarán la aplicación; mostrarán una explicación y la opción de reintentar.
+- La pantalla inicial muestra únicamente los géneros activados.
+- La selección de un género determina la consulta enviada a TMDB.
+- Cada película se identifica mediante el identificador asignado por TMDB.
+- El director se obtiene de los créditos cuyo trabajo es `Director`.
+- La ficha es informativa y no permite modificar los datos externos.
+- El token de TMDB no se incluye en Git.
+- Las consultas excluyen contenido para adultos.
 
-## Integración con la API
+## Integración con TMDB
 
-CineExplorer utilizará la versión 3 de la API de TMDB. Primero solicitará la lista de géneros. Cuando el usuario elija uno, enviará su identificador al endpoint de descubrimiento mediante el parámetro `with_genres`. Después, al abrir una película, consultará sus detalles y créditos para completar la ficha e identificar al director.
+CineExplorer utiliza la versión 3 de la API de TMDB. Retrofit transforma las respuestas JSON en modelos de Kotlin. Al abrir una película, el repositorio consulta sus detalles y créditos de forma concurrente para construir una sola ficha.
 
-Flujo de datos:
-
-1. La aplicación solicita los géneros disponibles.
-2. El usuario selecciona un género.
-3. Retrofit consulta las películas usando el identificador del género.
-4. La respuesta JSON se transforma en objetos de Kotlin.
-5. La interfaz muestra las tarjetas de películas.
-6. Al seleccionar una tarjeta, se consultan los detalles y créditos.
-7. La ficha muestra la información o un estado de error.
-
-Endpoints previstos:
+Endpoints utilizados:
 
 ```text
 GET https://api.themoviedb.org/3/genre/movie/list
@@ -149,41 +136,206 @@ GET https://api.themoviedb.org/3/movie/{movie_id}
 GET https://api.themoviedb.org/3/movie/{movie_id}/credits
 ```
 
+El token de lectura se envía en el encabezado `Authorization: Bearer ...`. Se configura exclusivamente en `local.properties`, archivo excluido mediante `.gitignore`.
+
+> Este producto utiliza la API de TMDB, pero no está respaldado ni certificado por TMDB.
+
 ## Diseño y wireframes
 
 Los wireframes representan el recorrido principal y la configuración administrativa.
 
 ![Wireframes de géneros, películas por género, detalle y administración](docs/wireframes_cineexplorer.png)
 
-### Flujo de navegación
-
 ```mermaid
 flowchart TD
     A[Géneros] --> B[Películas del género]
     B --> C[Detalle de película]
     C --> B
-    A --> D[Configuración administrativa]
+    A --> D[Administrar géneros]
     D --> A
 ```
 
-### Criterios visuales
+Criterios visuales aplicados:
 
 - Tarjetas amplias y legibles para seleccionar géneros.
 - Cuadrícula de dos columnas para los pósteres.
 - Título del género seleccionado en la barra superior.
-- Ficha organizada por título, director, datos técnicos y sinopsis.
-- Indicadores para carga, error y ausencia de resultados.
-- Interruptores claros para activar o desactivar géneros en administración.
+- Ficha organizada por datos técnicos, créditos y sinopsis.
+- Soporte para tema claro, oscuro y colores dinámicos.
+- Controles identificados para visibilidad y género destacado.
 
-## Alcance del prototipo
+## Arquitectura y estructura
 
-El producto mínimo viable estará completo cuando el usuario pueda abrir la aplicación, seleccionar un género, consultar sus películas y abrir una ficha con la información de una película. También deberá funcionar la selección local de géneros visibles desde la pantalla administrativa. El proyecto mantendrá un nivel intermedio porque integra una API real, navegación, varias consultas relacionadas, transformación de JSON, carga de imágenes, paginación, arquitectura MVVM, persistencia de preferencias y manejo de errores, sin añadir servicios que no sean necesarios para su propósito principal.
+```text
+CineExplorer/
+├── app/src/main/java/com/example/cineexplorer/
+│   ├── data/
+│   │   ├── model/          # Respuestas de TMDB y modelos de dominio
+│   │   ├── remote/         # Retrofit, OkHttp y endpoints
+│   │   ├── MovieRepository.kt
+│   │   └── SettingsRepository.kt
+│   ├── ui/
+│   │   ├── screen/         # Pantallas Compose
+│   │   ├── state/          # Estados de carga, éxito y error
+│   │   ├── theme/          # Colores y tema Material 3
+│   │   └── viewmodel/      # Estado y acciones de cada pantalla
+│   └── MainActivity.kt
+├── docs/                   # Wireframes y pruebas manuales
+├── CHANGELOG.md            # Registro de cambios ampliado
+└── README.md               # Informe y guía del proyecto
+```
+
+El flujo principal de datos es `Pantalla → ViewModel → Repository → API`. Las respuestas regresan al `ViewModel`, se convierten en estado observable y Compose actualiza la pantalla. Las preferencias siguen el flujo `Pantalla administrativa → ViewModel → SettingsRepository → DataStore`.
+
+## Instalación y ejecución
+
+### Requisitos
+
+- Android Studio con JDK 17.
+- Android SDK 35 instalado.
+- Un emulador o dispositivo con Android 7.0 (API 24) o superior.
+- Una cuenta de TMDB y un **API Read Access Token**.
+
+### Configuración
+
+1. Clone o descargue este repositorio y ábralo en Android Studio.
+2. Espere a que Gradle sincronice las dependencias.
+3. Abra el archivo `local.properties` que Android Studio crea en la raíz.
+4. Agregue su token sin comillas:
+
+   ```properties
+   TMDB_BEARER_TOKEN=su_token_de_lectura
+   ```
+
+5. Seleccione un emulador o dispositivo y pulse **Run**.
+
+También se incluye `local.properties.example` como referencia. Nunca se debe confirmar `local.properties` en GitHub.
+
+### Solución al error de ruta con tildes en Windows
+
+Si Android Studio muestra el mensaje `Your project path contains non-ASCII characters`, cierre el proyecto y muévalo a una ruta que no contenga tildes ni otros caracteres especiales, por ejemplo:
+
+```text
+C:\AndroidProjects\CineExplorer
+```
+
+Después, seleccione **File > Open**, abra la nueva carpeta y pulse **Sync Project with Gradle Files**. El proyecto también incluye `android.overridePathCheck=true` en `gradle.properties` como compatibilidad adicional, pero una ruta simple continúa siendo la opción más segura.
+
+### Publicación del avance en GitHub
+
+Desde la carpeta raíz del repositorio:
+
+```bash
+git add .
+git commit -m "feat: implementar avance funcional de CineExplorer"
+git push origin main
+```
+
+Después del envío, abra `README.md` en GitHub y copie su URL. Esa es la dirección que debe agregar al documento de entrega. Si la rama principal de GitHub Classroom tiene otro nombre, sustituya `main` por el nombre correspondiente.
+
+## Pruebas
+
+El proyecto incluye pruebas unitarias del mapeo de detalles y una lista de pruebas manuales en [`docs/PRUEBAS_MANUALES.md`](docs/PRUEBAS_MANUALES.md).
+
+Comandos disponibles:
+
+```bash
+# Pruebas unitarias
+./gradlew test
+
+# Compilación de depuración
+./gradlew assembleDebug
+```
+
+Los casos manuales cubren carga inicial, filtrado, detalle, paginación, persistencia, restauración, token inválido y pérdida de conexión.
+
+## Registro de cambios
+
+El registro sigue una adaptación de *Keep a Changelog* y utiliza versiones semánticas para diferenciar el borrador, el avance funcional y la entrega estable.
+
+### Pasado — [0.1.0] — 26 de agosto de 2026
+
+**Agregado**
+
+- Definición del problema, objetivos y alcance del proyecto.
+- Selección de Android Studio, Kotlin, Jetpack Compose, MVVM y TMDB.
+- Diseño del flujo Géneros → Películas → Detalle.
+- Wireframes de las cuatro pantallas principales.
+- Reglas para mantener el token fuera del repositorio.
+
+### Actual — [0.2.1] — 22 de septiembre de 2026
+
+**Corregido**
+
+- Se agregó compatibilidad con rutas de Windows que contienen caracteres no ASCII mediante `android.overridePathCheck=true`.
+- Se documentó el procedimiento recomendado para mover el proyecto a una ruta sin tildes.
+
+### Pasado — [0.2.0] — 22 de septiembre de 2026
+
+**Agregado**
+
+- Proyecto Android Studio con Gradle Kotlin DSL.
+- Consumo de los cuatro endpoints previstos de TMDB.
+- Pantallas funcionales de géneros, listado, detalle y administración.
+- Navegación con parámetros de género y película.
+- Paginación manual, carga de pósteres y mensajes de error.
+- Persistencia de géneros visibles y destacado mediante DataStore.
+- Tema Material 3 claro/oscuro y colores dinámicos.
+- Pruebas unitarias del mapeo y guía de pruebas manuales.
+
+**Cambiado**
+
+- El documento dejó de describir solamente una propuesta y ahora refleja funciones implementadas.
+- La ficha combina detalles y créditos para identificar al director y al reparto principal.
+- El README incorpora instalación, estructura, pruebas y procedimiento de publicación.
+
+**Seguridad**
+
+- El token se obtiene de `local.properties`; este archivo está excluido de Git.
+- El registro de red se limita al nivel básico durante depuración y se desactiva en la versión final.
+
+### Futuro — [0.3.0] — Pendiente
+
+- Ejecutar pruebas instrumentadas de navegación y estados de pantalla.
+- Revisar contraste, escalado de texto y descripciones de accesibilidad.
+- Validar el diseño en varios tamaños de pantalla y en un dispositivo físico.
+- Incorporar una presentación vacía específica cuando TMDB no tenga póster.
+- Corregir los defectos encontrados durante las pruebas finales.
+
+### Futuro — [1.0.0] — Entrega final
+
+- Congelar el alcance funcional.
+- Completar la evidencia de pruebas.
+- Actualizar la documentación final.
+- Generar y verificar el APK de entrega.
+- Publicar el código y el README finales en GitHub Classroom.
+
+## Alcance y trabajo pendiente
+
+El producto mínimo viable está implementado cuando el usuario puede abrir la aplicación, seleccionar un género, consultar sus películas y abrir una ficha. También funciona la selección local de géneros visibles. El nivel del proyecto es intermedio porque integra una API real, navegación, consultas relacionadas, transformación de JSON, carga de imágenes, paginación, arquitectura MVVM, persistencia y manejo de errores sin incorporar servicios ajenos al propósito principal.
+
+Las funciones de búsqueda, favoritos, recomendaciones, cuentas y sincronización permanecen fuera de la versión actual. El trabajo futuro inmediato se concentra en pruebas, accesibilidad, corrección de defectos y preparación de la entrega.
 
 ## Referencias
 
-- Android Developers. (s. f.). *Meet Android Studio*. https://developer.android.com/studio/intro
-- GitHub. (s. f.). *Hola mundo*. https://docs.github.com/es/get-started/using-github/hello-world
-- Sánchez Hernández, J. J. (s. f.). *Taller de introducción a Git y GitHub*. GitHub. https://github.com/josejuansanchez/taller-git-github
-- The Movie Database. (s. f.). *Getting started*. https://developer.themoviedb.org/docs/getting-started
-- The Movie Database. (s. f.). *Discover movies*. https://developer.themoviedb.org/reference/discover-movie
-- The Movie Database. (s. f.). *Movie credits*. https://developer.themoviedb.org/reference/movie-credits
+Android Developers. (2026a). *Guide to app architecture*. https://developer.android.com/topic/architecture
+
+Android Developers. (2026b). *Thinking in Compose*. https://developer.android.com/develop/ui/compose/mental-model
+
+Android Developers. (2026c). *DataStore*. https://developer.android.com/topic/libraries/architecture/datastore
+
+Android Developers. (2026d). *Use a Bill of Materials*. https://developer.android.com/develop/ui/compose/bom
+
+GitHub. (s. f.). *Hola mundo*. https://docs.github.com/es/get-started/start-your-journey/hello-world
+
+Keep a Changelog. (s. f.). *Keep a changelog*. https://keepachangelog.com/es-ES/1.1.0/
+
+Nielsen, J. (2024). *10 usability heuristics for user interface design*. Nielsen Norman Group. https://www.nngroup.com/articles/ten-usability-heuristics/
+
+Sánchez Hernández, J. J. (s. f.). *Taller de introducción a Git y GitHub*. GitHub. https://github.com/josejuansanchez/taller-git-github
+
+Square. (s. f.). *Retrofit: A type-safe HTTP client for Android and Java*. https://square.github.io/retrofit/
+
+The Movie Database. (s. f.). *Getting started*. https://developer.themoviedb.org/docs/getting-started
+
+The Movie Database. (s. f.). *Movie credits*. https://developer.themoviedb.org/reference/movie-credits

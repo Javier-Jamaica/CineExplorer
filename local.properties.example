@@ -1,0 +1,4 @@
+# Copie este archivo como local.properties y complete los valores.
+# La ruta sdk.dir normalmente la agrega Android Studio automáticamente.
+sdk.dir=C\:\\Users\\USUARIO\\AppData\\Local\\Android\\Sdk
+TMDB_BEARER_TOKEN=PEGUE_AQUI_SU_TOKEN_DE_LECTURA_DE_TMDB
