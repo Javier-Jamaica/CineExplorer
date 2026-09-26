@@ -1,9 +1,9 @@
 # CineExplorer
 
 > Aplicación Android para explorar películas por género y consultar su información principal.  
-> **Autor:** [Nombre del estudiante]  
+> **Autor:** Cristian Javier Jamaica  
 > **Curso:** COM-437 Desarrollo de Aps Móviles  
-> **Institución:** [Nombre de la institución]  
+> **Institución:** Saint Leo University  
 > **Versión actual:** 0.2.1  
 > **Última actualización:** 22 de septiembre de 2026
 
