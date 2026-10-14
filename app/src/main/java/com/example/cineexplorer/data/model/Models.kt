@@ -25,7 +25,7 @@ data class MovieSummary(
     @SerializedName("vote_average") val voteAverage: Double = 0.0
 ) {
     val year: String get() = releaseDate.take(4).ifBlank { "Sin fecha" }
-    val posterUrl: String? get() = posterPath?.let { "$IMAGE_BASE_URL$it" }
+    val posterUrl: String? get() = posterPath.toPosterUrl()
 }
 
 data class MovieDetailsDto(
@@ -69,8 +69,11 @@ data class MovieDetail(
 )
 
 fun MovieDetailsDto.toDomain(credits: CreditsResponse): MovieDetail {
-    val director = credits.crew.firstOrNull { it.job.equals("Director", ignoreCase = true) }?.name
-        ?: "No disponible"
+    val director = credits.crew.filter { it.job.equals("Director", ignoreCase = true) }
+        .map { it.name }
+        .distinct()
+        .joinToString()
+        .ifBlank { "No disponible" }
     val cast = credits.cast
         .sortedBy { it.order }
         .take(5)
@@ -84,7 +87,7 @@ fun MovieDetailsDto.toDomain(credits: CreditsResponse): MovieDetail {
         title = title,
         year = releaseDate.take(4).ifBlank { "Sin fecha" },
         overview = overview.ifBlank { "TMDB no ofrece una sinopsis en español para esta película." },
-        posterUrl = posterPath?.let { "$IMAGE_BASE_URL$it" },
+        posterUrl = posterPath.toPosterUrl(),
         runtimeLabel = runtime?.takeIf { it > 0 }?.let { "$it min" } ?: "No disponible",
         ratingLabel = String.format("%.1f / 10", voteAverage),
         genresLabel = genres.joinToString { it.name }.ifBlank { "No disponible" },
@@ -94,3 +97,7 @@ fun MovieDetailsDto.toDomain(credits: CreditsResponse): MovieDetail {
 }
 
 private const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
+
+fun String?.toPosterUrl(): String? = this?.trim()?.takeIf { it.isNotEmpty() }?.let { path ->
+    if (path.startsWith("https://")) path else "$IMAGE_BASE_URL/${path.trimStart('/')}"
+}

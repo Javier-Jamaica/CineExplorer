@@ -12,6 +12,7 @@ val localProperties = Properties().apply {
 }
 
 val tmdbToken = localProperties.getProperty("TMDB_BEARER_TOKEN", "")
+    .trim()
     .replace("\\", "\\\\")
     .replace("\"", "\\\"")
 
@@ -23,8 +24,8 @@ android {
         applicationId = "com.example.cineexplorer"
         minSdk = 24
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.2.1"
+        versionCode = 5
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true

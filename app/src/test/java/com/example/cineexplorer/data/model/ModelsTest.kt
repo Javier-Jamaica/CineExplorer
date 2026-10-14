@@ -1,6 +1,7 @@
 package com.example.cineexplorer.data.model
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -44,5 +45,40 @@ class ModelsTest {
         assertEquals("Sin fecha", result.year)
         assertEquals("No disponible", result.director)
         assertEquals("No disponible", result.runtimeLabel)
+    }
+
+    @Test
+    fun `posterUrl se construye igual para tarjeta y ficha`() {
+        val summary = MovieSummary(10, "Película", "/poster.jpg")
+        val detail = MovieDetailsDto(
+            id = 10,
+            title = "Película",
+            posterPath = "/poster.jpg",
+            runtime = null
+        ).toDomain(CreditsResponse())
+
+        assertEquals("https://image.tmdb.org/t/p/w500/poster.jpg", summary.posterUrl)
+        assertEquals(summary.posterUrl, detail.posterUrl)
+    }
+
+    @Test
+    fun `posterUrl maneja ruta vacia y URL completa`() {
+        assertNull(null.toPosterUrl())
+        assertNull("  ".toPosterUrl())
+        assertEquals("https://image.tmdb.org/t/p/w500/poster.jpg", "poster.jpg".toPosterUrl())
+        assertEquals("https://example.com/poster.jpg", "https://example.com/poster.jpg".toPosterUrl())
+    }
+
+    @Test
+    fun `ficha muestra todos los directores sin duplicarlos`() {
+        val details = MovieDetailsDto(10, "Película", posterPath = null, runtime = null)
+        val credits = CreditsResponse(crew = listOf(
+            CrewMember("Directora A", "Director"),
+            CrewMember("Director B", "Director"),
+            CrewMember("Directora A", "Director"),
+            CrewMember("Guionista", "Writer")
+        ))
+
+        assertEquals("Directora A, Director B", details.toDomain(credits).director)
     }
 }

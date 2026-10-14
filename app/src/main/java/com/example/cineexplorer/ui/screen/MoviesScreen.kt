@@ -1,7 +1,6 @@
 package com.example.cineexplorer.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -26,12 +25,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.example.cineexplorer.data.model.MovieSummary
 import com.example.cineexplorer.ui.viewmodel.MoviesViewModel
 
@@ -119,21 +116,11 @@ private fun LazyGridScope.loadMoreItem(
 private fun MovieCard(movie: MovieSummary, onClick: () -> Unit) {
     Card(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
         Column {
-            if (movie.posterUrl == null) {
-                Box(
-                    modifier = Modifier.fillMaxWidth().aspectRatio(2f / 3f),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text("Póster no disponible")
-                }
-            } else {
-                AsyncImage(
-                    model = movie.posterUrl,
-                    contentDescription = "Póster de ${movie.title}",
-                    modifier = Modifier.fillMaxWidth().aspectRatio(2f / 3f),
-                    contentScale = ContentScale.Crop
-                )
-            }
+            PosterImage(
+                posterUrl = movie.posterUrl,
+                title = movie.title,
+                modifier = Modifier.fillMaxWidth().aspectRatio(2f / 3f)
+            )
             Text(
                 text = movie.title,
                 modifier = Modifier.padding(start = 12.dp, top = 10.dp, end = 12.dp),

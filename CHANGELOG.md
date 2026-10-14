@@ -4,11 +4,48 @@ Todos los cambios importantes de CineExplorer se documentan en este archivo. El 
 
 ## [No publicado]
 
-### Por agregar
+Pendiente: ejecutar la compilación y las pruebas de aceptación en Android Studio con un token válido.
 
-- Pruebas instrumentadas de navegación y estados de interfaz.
-- Revisión de accesibilidad y validación en diferentes pantallas.
-- Evidencia final de pruebas y APK verificado.
+## [1.0.1] - 2026-10-14
+
+### Corregido
+
+- Se retiró el catálogo ficticio y se restauró TMDB como única fuente.
+- Las imágenes utilizan las rutas de pósteres proporcionadas por la API.
+- Los pósteres cuentan con carga, mensaje de error y reintento individual.
+- Se normaliza el token y se identifica su ausencia antes de enviar solicitudes.
+- La ficha muestra los directores sin duplicados.
+- El Gradle Wrapper utiliza la versión 8.13.
+
+### Agregado
+
+- Pruebas de regresión de URLs y películas con varios directores.
+- Guía de configuración del API Read Access Token y recompilación.
+
+### Validación
+
+- Revisión del código, configuración y estructura del paquete.
+- La compilación y las pruebas Android/JUnit están pendientes de ejecutarse en Android Studio.
+
+## [1.0.0] - 2026-10-14
+
+### Agregado
+
+- Catálogo local con ocho películas distribuidas en siete géneros.
+- Funcionamiento inmediato sin cuenta, token o conexión a Internet.
+- Pruebas unitarias del catálogo local.
+- Estado visual alternativo para películas sin póster.
+
+### Cambiado
+
+- TMDB ahora es una integración opcional que se activa mediante `local.properties`.
+- Se actualizó la documentación, la guía de pruebas y la versión de la aplicación.
+
+### Verificado
+
+- La estructura incluye código, documentación, wireframe y Gradle Wrapper.
+- `.gitignore` excluye credenciales, configuraciones locales y archivos generados.
+- No hay claves o tokens almacenados en el código fuente.
 
 ## [0.2.1] - 2026-09-22
 

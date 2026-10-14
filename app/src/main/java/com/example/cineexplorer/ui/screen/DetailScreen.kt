@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,7 +21,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.example.cineexplorer.data.model.MovieDetail
 import com.example.cineexplorer.ui.state.LoadState
 import com.example.cineexplorer.ui.viewmodel.DetailViewModel
@@ -62,11 +61,11 @@ private fun MovieDetailContent(detail: MovieDetail, modifier: Modifier = Modifie
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item {
-            AsyncImage(
-                model = detail.posterUrl,
-                contentDescription = "Póster de ${detail.title}",
-                modifier = Modifier.fillMaxWidth().heightIn(min = 320.dp, max = 520.dp),
-                contentScale = ContentScale.Crop
+            PosterImage(
+                posterUrl = detail.posterUrl,
+                title = detail.title,
+                modifier = Modifier.fillMaxWidth().height(440.dp),
+                contentScale = ContentScale.Fit
             )
         }
         item {

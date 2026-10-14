@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 
 object NetworkModule {
     private const val BASE_URL = "https://api.themoviedb.org/3/"
@@ -13,11 +14,10 @@ object NetworkModule {
         OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val token = BuildConfig.TMDB_BEARER_TOKEN
+                if (token.isBlank()) throw MissingTmdbTokenException()
                 val request = chain.request().newBuilder()
                     .header("Accept", "application/json")
-                    .apply {
-                        if (token.isNotBlank()) header("Authorization", "Bearer $token")
-                    }
+                    .header("Authorization", "Bearer $token")
                     .build()
                 chain.proceed(request)
             }
@@ -42,3 +42,5 @@ object NetworkModule {
             .create(TmdbApi::class.java)
     }
 }
+
+class MissingTmdbTokenException : IOException("TMDB_TOKEN_MISSING")
